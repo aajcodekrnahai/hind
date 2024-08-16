@@ -204,7 +204,7 @@ async def get_msg(userbot, sender, edit_id, msg_link, i, message):
                 replacements = load_replacement_words(sender)
                 for word, replace_word in replacements.items():
                     final_caption = final_caption.replace(word, replace_word)
-                caption = f"{final_caption}\n\n__**{custom_caption}**__" if custom_caption else f"{final_caption}"
+                caption = f"`{final_caption}`\n\n__**`{custom_caption}`**__" if custom_caption else f"`{final_caption}`"
 
                 target_chat_id = user_chat_ids.get(sender, sender)
                 devggn = await app.send_photo(chat_id=target_chat_id, photo=file, caption=caption)
@@ -231,7 +231,7 @@ async def get_msg(userbot, sender, edit_id, msg_link, i, message):
                 replacements = load_replacement_words(chatx)
                 for word, replace_word in replacements.items():
                     final_caption = final_caption.replace(word, replace_word)
-                caption = f"{final_caption}\n\n__**{custom_caption}**__" if custom_caption else f"{final_caption}"
+                caption = f"`{final_caption}`\n\n__**`{custom_caption}`**__" if custom_caption else f"`{final_caption}`"
 
                 target_chat_id = user_chat_ids.get(chatx, chatx)
                 try:
