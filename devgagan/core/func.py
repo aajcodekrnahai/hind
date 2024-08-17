@@ -1,6 +1,7 @@
 
 #devggn
 
+
 import math
 import time , re
 from pyrogram import enums
@@ -82,14 +83,16 @@ async def get_seconds(time_string):
         return 0
 
 
-PROGRESS_BAR = """```
-Completed : {1}/{2}
-Bytes     : {0}%
-Speed     : {3}/s
-Time      : {4}
 
-Powered by [Team SPY](https://t.me/devggn)
+
+PROGRESS_BAR = """```\n
+**__Completed__** : {1}/{2}
+**__Bytes__** : {0}%
+**__Speed__** : {3}/s
+**__Time__** : {4}\n\n
+**__Powered by [Team SPY](https://t.me/devggn)__**
 ```"""
+
 
 async def progress_bar(current, total, ud_type, message, start):
 
@@ -106,27 +109,23 @@ async def progress_bar(current, total, ud_type, message, start):
         elapsed_time = TimeFormatter(milliseconds=elapsed_time)
         estimated_total_time = TimeFormatter(milliseconds=estimated_total_time)
 
-        ''.join(["█" for i in range(math.floor(percentage / 10))]),
-        ''.join(["░" for i in range(10 - math.floor(percentage / 10))])
-
+        progress = "{0}{1}".format(
+            ''.join(["█" for i in range(math.floor(percentage / 10))]),
+            ''.join(["░" for i in range(10 - math.floor(percentage / 10))]))
             
-    tmp = progress + PROGRESS_BAR.format(
-        round(percentage, 2),
-        humanbytes(current),
-        humanbytes(total),
-        humanbytes(speed),
-        estimated_total_time if estimated_total_time != '' else "0 s"
-    )
-    try:
-                await message.edit(
-            
-
-    
-
-            
+        tmp = progress + PROGRESS_BAR.format( 
+            round(percentage, 2),
+            humanbytes(current),
+            humanbytes(total),
+            humanbytes(speed),
+            # elapsed_time if elapsed_time != '' else "0 s",
+            estimated_total_time if estimated_total_time != '' else "0 s"
+        )
+        try:
+            await message.edit(
                 text="{}\n\n{}".format(ud_type, tmp),)             
                 
-    except:
+        except:
             pass
 
 def humanbytes(size):
