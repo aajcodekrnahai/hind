@@ -117,11 +117,16 @@ async def progress_bar(current, total, ud_type, message, start):
         humanbytes(speed),
         estimated_total_time if estimated_total_time != '' else "0 s"
     )
-        try:
-            await message.edit(
+    try:
+                await message.edit(
+            
+
+    
+
+            
                 text="{}\n\n{}".format(ud_type, tmp),)             
                 
-        except:
+    except:
             pass
 
 def humanbytes(size):
