@@ -1,3 +1,4 @@
+
 #devggn
 
 
@@ -82,60 +83,48 @@ async def get_seconds(time_string):
         return 0
 
 
+PROGRESS_BAR = """```
+Completed : {1}/{2}
+Bytes     : {0}%
+Speed     : {3}/s
+Time      : {4}
 
-
-PROGRESS_BAR = """\n
-**Progress** : |{0}| {1}%
-**Completed** : {2}/{3}
-**Bytes** : {1}%
-**Speed** : {4}/s
-**Time Remaining** : {5}\n\n
-**Powered by [Team SPY](https://t.me/devggn)**
-"""
+Powered by [Team SPY](https://t.me/devggn)
+```"""
 
 async def progress_bar(current, total, ud_type, message, start):
+
     now = time.time()
     diff = now - start
-
     if round(diff % 10.00) == 0 or current == total:
+        # if round(current / total * 100, 0) % 5 == 0:
         percentage = current * 100 / total
         speed = current / diff
+        elapsed_time = round(diff) * 1000
+        time_to_completion = round((total - current) / speed) * 1000
+        estimated_total_time = elapsed_time + time_to_completion
 
-        elapsed_time_ms = round(diff) * 1000
-        time_to_completion_ms = round((total - current) / speed) * 1000
-        estimated_total_time_ms = elapsed_time_ms + time_to_completion_ms
+        elapsed_time = TimeFormatter(milliseconds=elapsed_time)
+        estimated_total_time = TimeFormatter(milliseconds=estimated_total_time)
 
-        elapsed_time = TimeFormatter(milliseconds=elapsed_time_ms)
-        estimated_total_time = TimeFormatter(milliseconds=estimated_total_time_ms)
+        ''.join(["█" for i in range(math.floor(percentage / 10))]),
+        ''.join(["░" for i in range(10 - math.floor(percentage / 10))])
 
-        # Create the progress bar string
-        bar_length = 30  # Length of the progress bar
-        filled_length = int(bar_length * percentage // 100)
-        bar = '█' * filled_length + '-' * (bar_length - filled_length)
-
-        # Format the final output
-        tmp = PROGRESS_BAR.format(
-            bar,
+            
+        tmp = progress + PROGRESS_BAR.format( 
             round(percentage, 2),
             humanbytes(current),
             humanbytes(total),
             humanbytes(speed),
-            estimated_total_time if estimated_total_time else "0 s"
+            # elapsed_time if elapsed_time != '' else "0 s",
+            estimated_total_time if estimated_total_time != '' else "0 s"
         )
-
         try:
             await message.edit(
-                text="{}\n\n{}".format(ud_type, tmp),
-            )
+                text="{}\n\n{}".format(ud_type, tmp),)             
+                
         except:
             pass
-            # print(f"Error updating message: {e}")
-
-# Example usage of the progress_bar function would involve real-time updates.
-           
-                
-        # except:
-        #     pass
 
 def humanbytes(size):
     if not size:
