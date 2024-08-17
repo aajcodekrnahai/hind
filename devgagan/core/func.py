@@ -1,7 +1,6 @@
 
 #devggn
 
-
 import math
 import time , re
 from pyrogram import enums
@@ -111,14 +110,14 @@ async def progress_bar(current, total, ud_type, message, start):
         ''.join(["░" for i in range(10 - math.floor(percentage / 10))])
 
             
-        tmp = progress + PROGRESS_BAR.format( 
-            round(percentage, 2),
-            humanbytes(current),
-            humanbytes(total),
-            humanbytes(speed),
+        tmp = `progress` + `PROGRESS_BAR.format( 
+            round(`percentage`, 2),
+            humanbytes(`current`),
+            humanbytes(`total`),
+            humanbytes(`speed`),
             # elapsed_time if elapsed_time != '' else "0 s",
             estimated_total_time if estimated_total_time != '' else "0 s"
-        )
+        )`
         try:
             await message.edit(
                 text="{}\n\n{}".format(ud_type, tmp),)             
